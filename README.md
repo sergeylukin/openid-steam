@@ -1,22 +1,43 @@
-# NPM Module Boilerplate
+# Steam OpenID Node.JS API
 
-[![Build Status](https://travis-ci.org/flexdinesh/npm-module-boilerplate.svg?branch=master)](https://travis-ci.org/flexdinesh/npm-module-boilerplate) [![dependencies Status](https://david-dm.org/flexdinesh/npm-module-boilerplate/status.svg)](https://david-dm.org/flexdinesh/npm-module-boilerplate) [![devDependencies Status](https://david-dm.org/flexdinesh/npm-module-boilerplate/dev-status.svg)](https://david-dm.org/flexdinesh/npm-module-boilerplate?type=dev) [![License: MIT](https://img.shields.io/badge/License-MIT-blue.svg)](https://opensource.org/licenses/MIT)
+## Install
 
-**Start developing your NPM module in seconds** ✨
+```
+npm install --save openid-steam
+```
 
-Readymade boilerplate setup with all the best practices to kick start your npm/node module development.
+## Usage
 
-Happy hacking =)
+```js
+import Steam from "openid-steam"
 
-# Features
+// Pass return URL as an argument, the URL you want Steam to return
+// user to where you will parse query parameters and extract steam ID
+const steam = new Steam("http://localhost:3333/auth")
+steam.url()
+  .then((url) => {
+    // Redirect user to this url
+    console.log(url)
+  })
+  .catch((error) => {
+    console.log(error.message)
+  })
 
-* **ES6/ESNext** - Write _ES6_ code and _Babel_ will transpile it to ES5 for backwards compatibility
-* **Test** - _Mocha_ with _Istanbul_ coverage
-* **Lint** - Preconfigured _ESlint_ with _Airbnb_ config
-* **CI** - _TravisCI_ configuration setup
-* **Minify** - Built code will be minified for performance
+// Then user will be returned to a similar URL as below:
+const url = window.location.href
 
-# Commands
+// Which you can verify in order to identify the user
+steam.verify(url)
+  .then((steamId) => {
+    console.log(steamId)
+  })
+  .catch((err) => {
+    console.log(err.message)
+  })
+```
+
+## Development
+
 - `npm run clean` - Remove `lib/` directory
 - `npm test` - Run tests with linting and coverage results.
 - `npm test:only` - Run tests without linting or coverage.
@@ -28,10 +49,8 @@ Happy hacking =)
 - `npm run build` - Babel will transpile ES6 => ES5 and minify the code.
 - `npm run prepublish` - Hook for npm. Do all the checks before publishing your module.
 
-# Installation
-Just clone this repo and remove `.git` folder.
-
-
 # License
 
-MIT © Dinesh Pandiyan
+Released under [MIT license][]
+
+[mit license]: http://sergey.mit-license.org/

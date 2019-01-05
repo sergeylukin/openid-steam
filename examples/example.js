@@ -1,4 +1,4 @@
-import Steam from "../auth"
+import Steam from "openid-steam"
 
 const steam = new Steam("http://localhost:3333/auth")
 steam.url()
